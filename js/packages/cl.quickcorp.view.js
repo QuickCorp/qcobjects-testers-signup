@@ -48,7 +48,7 @@ Package('cl.quickcorp.view',[
 		getSponsorsList:function (){
 			this.sponsors=New(ArrayCollection);
 			var view=this;
-			firebase.firestore().collection("companies").get().then(
+			firebase.firestore().collection(CONFIG.get("formcollection")).get().then(
 				function (q){
 					q.forEach(function (doc){
 						view.sponsors.push(doc.data());
@@ -57,7 +57,7 @@ Package('cl.quickcorp.view',[
 		watchSponsorsListChanges:function (){
 			var view=this;
 			var db = firebase.firestore();
-			db.collection("companies").onSnapshot(function(querySnapshot) {
+			db.collection(CONFIG.get("formcollection")).onSnapshot(function(querySnapshot) {
 			        view.sponsors = New(ArrayCollection);
 			        querySnapshot.forEach(function(doc) {
 			            view.sponsors.push(doc.data());
@@ -77,7 +77,7 @@ Package('cl.quickcorp.view',[
 
 			GLOBAL.loadFirebase();
 
-			var newSponsorRef = firebase.firestore().collection("companies").doc();
+			var newSponsorRef = firebase.firestore().collection(CONFIG.get("formcollection")).doc();
 			newSponsorRef.set(data).then(function (){
 				Tag('component[name=progressbar]')[0].style.display='none';
 				Tag('component[name=contact_form_fields]')[0].style.display='none';
